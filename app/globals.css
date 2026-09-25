@@ -327,8 +327,33 @@
   50% { opacity: 1; }
 }
 
+/* IR curtains looping open/close over the villa window */
+.sh-cpanel {
+  background:
+    repeating-linear-gradient(90deg, oklch(0.26 0.05 255) 0 6px, oklch(0.32 0.06 255) 6px 12px);
+  box-shadow: inset 0 0 20px oklch(0 0 0 / 0.5);
+  will-change: transform;
+}
+.sh-cpanel-left { transform-origin: left center; animation: shCPanelL 5.5s ease-in-out infinite; }
+.sh-cpanel-right { transform-origin: right center; animation: shCPanelR 5.5s ease-in-out infinite; }
+@keyframes shCPanelL {
+  0%, 12%, 90%, 100% { transform: translateX(0); }
+  40%, 68% { transform: translateX(-96%); }
+}
+@keyframes shCPanelR {
+  0%, 12%, 90%, 100% { transform: translateX(0); }
+  40%, 68% { transform: translateX(96%); }
+}
+/* warm window glow revealed when curtains open */
+.sh-window-glow { animation: shWindowGlow 5.5s ease-in-out infinite; }
+@keyframes shWindowGlow {
+  0%, 16%, 86%, 100% { opacity: 0.1; }
+  44%, 64% { opacity: 0.95; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .sh-orb, .sh-panel, .sh-scan, .sh-drip, .sh-ping, .sh-glow {
+  .sh-orb, .sh-panel, .sh-scan, .sh-drip, .sh-ping, .sh-glow,
+  .sh-cpanel-left, .sh-cpanel-right, .sh-window-glow {
     animation: none;
     transition: none;
   }

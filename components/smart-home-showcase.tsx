@@ -138,6 +138,24 @@ export function SmartHomeShowcase() {
                 )
               })}
 
+              {/* IR curtains open/close over the villa window */}
+              {active === "curtains" && (
+                <div
+                  className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2"
+                  style={{ top: `${activeDevice.pos.top}%`, left: `${activeDevice.pos.left}%` }}
+                >
+                  <div className="relative h-16 w-20 overflow-hidden rounded-md border border-primary/60 shadow-[0_0_24px_oklch(0.85_0.15_178_/_0.5)]">
+                    {/* warm interior glow revealed as curtains part */}
+                    <span className="sh-window-glow absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,oklch(0.9_0.13_95_/_0.9),oklch(0.8_0.12_80_/_0.35)_60%,transparent)]" />
+                    {/* curtain panels */}
+                    <span className="sh-cpanel sh-cpanel-left absolute inset-y-0 left-0 w-1/2" />
+                    <span className="sh-cpanel sh-cpanel-right absolute inset-y-0 right-0 w-1/2" />
+                    {/* rod */}
+                    <span className="absolute inset-x-0 top-0 h-1 bg-primary/70" />
+                  </div>
+                </div>
+              )}
+
               {/* Camera scan effect */}
               {active === "camera" && (
                 <div
