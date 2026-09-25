@@ -34,7 +34,7 @@ export default function Features() {
       <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {features.map((f) => (
           <div key={f.title} className="hive-panel rounded-2xl p-6">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-[oklch(0.78_0.16_78_/_0.12)] text-hive">
+            <div className="flex size-12 items-center justify-center rounded-xl bg-[oklch(0.76_0.15_175_/_0.12)] text-hive">
               <f.icon className="size-6" />
             </div>
             <h3 className="mt-5 text-lg font-semibold">{f.title}</h3>

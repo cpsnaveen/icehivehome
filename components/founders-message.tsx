@@ -9,7 +9,7 @@ const pillars = [
 
 export default function FoundersMessage() {
   return (
-    <section id="founder" className="hive-honeycomb border-y border-[oklch(0.78_0.16_78_/_0.12)]">
+    <section id="founder" className="hive-honeycomb border-y border-[oklch(0.76_0.15_175_/_0.12)]">
       <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
         <div className="text-center">
           <span className="text-sm font-medium uppercase tracking-[0.2em] text-hive">Founder&apos;s Message</span>
@@ -17,7 +17,7 @@ export default function FoundersMessage() {
         </div>
 
         <div className="mt-14 flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:gap-8">
-          <div className="size-28 shrink-0 overflow-hidden rounded-2xl border border-[oklch(0.78_0.16_78_/_0.3)] shadow-xl sm:size-32">
+          <div className="size-28 shrink-0 overflow-hidden rounded-2xl border border-[oklch(0.76_0.15_175_/_0.3)] shadow-xl sm:size-32">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/founder-naveen.jpg"
@@ -61,7 +61,7 @@ export default function FoundersMessage() {
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               {pillars.map((p) => (
                 <div key={p.title} className="hive-panel flex gap-4 rounded-2xl p-5">
-                  <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[oklch(0.78_0.16_78_/_0.12)] text-hive">
+                  <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[oklch(0.76_0.15_175_/_0.12)] text-hive">
                     <p.icon className="size-5" />
                   </div>
                   <div>

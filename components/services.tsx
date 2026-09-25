@@ -11,7 +11,7 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="services" className="hive-honeycomb border-y border-[oklch(0.78_0.16_78_/_0.12)]">
+    <section id="services" className="hive-honeycomb border-y border-[oklch(0.76_0.15_175_/_0.12)]">
       <div className="mx-auto max-w-6xl px-6 py-20">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Our Services</h2>
@@ -22,7 +22,7 @@ export default function Services() {
           {services.map((s) => (
             <div
               key={s.title}
-              className="hive-panel group rounded-2xl p-6 transition-colors hover:border-[oklch(0.78_0.16_78_/_0.4)]"
+              className="hive-panel group rounded-2xl p-6 transition-colors hover:border-[oklch(0.76_0.15_175_/_0.4)]"
             >
               <s.icon className="size-8 text-hive transition-transform group-hover:scale-110" />
               <h3 className="mt-5 text-lg font-semibold">{s.title}</h3>

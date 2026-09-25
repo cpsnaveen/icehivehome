@@ -17,7 +17,10 @@ export default function Contact() {
                 <Mail className="size-5 text-hive" /> hello@icehivehome.com
               </li>
               <li className="flex items-center gap-3 text-white/80">
-                <Phone className="size-5 text-hive" /> +971 52 548 1550
+                <Phone className="size-5 text-hive" />
+                <a href="tel:+971525481550" className="transition-colors hover:text-hive">
+                  +971 52 548 1550
+                </a>
               </li>
               <li className="flex items-center gap-3 text-white/80">
                 <MapPin className="size-5 text-hive" /> Serving homes worldwide
@@ -36,7 +39,7 @@ export default function Contact() {
                   name="name"
                   type="text"
                   required
-                  className="w-full rounded-xl border border-white/15 bg-[oklch(0.16_0.01_70_/_0.6)] px-4 py-2.5 text-sm text-white outline-none transition-colors focus:border-hive"
+                  className="w-full rounded-xl border border-white/15 bg-[oklch(0.17_0.045_255_/_0.6)] px-4 py-2.5 text-sm text-white outline-none transition-colors focus:border-hive"
                 />
               </div>
               <div>
@@ -48,7 +51,7 @@ export default function Contact() {
                   name="email"
                   type="email"
                   required
-                  className="w-full rounded-xl border border-white/15 bg-[oklch(0.16_0.01_70_/_0.6)] px-4 py-2.5 text-sm text-white outline-none transition-colors focus:border-hive"
+                  className="w-full rounded-xl border border-white/15 bg-[oklch(0.17_0.045_255_/_0.6)] px-4 py-2.5 text-sm text-white outline-none transition-colors focus:border-hive"
                 />
               </div>
             </div>
@@ -61,7 +64,7 @@ export default function Contact() {
                 name="message"
                 rows={4}
                 required
-                className="w-full resize-none rounded-xl border border-white/15 bg-[oklch(0.16_0.01_70_/_0.6)] px-4 py-2.5 text-sm text-white outline-none transition-colors focus:border-hive"
+                className="w-full resize-none rounded-xl border border-white/15 bg-[oklch(0.17_0.045_255_/_0.6)] px-4 py-2.5 text-sm text-white outline-none transition-colors focus:border-hive"
               />
             </div>
             <button

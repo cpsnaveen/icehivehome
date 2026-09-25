@@ -5,6 +5,7 @@ import { Hexagon, Menu, X } from "lucide-react"
 
 const links = [
   { label: "Features", href: "#features" },
+  { label: "Showcase", href: "#showcase" },
   { label: "Services", href: "#services" },
   { label: "About", href: "#about" },
   { label: "Founder", href: "#founder" },
@@ -15,10 +16,10 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[oklch(0.78_0.16_78_/_0.12)] bg-[oklch(0.16_0.01_70_/_0.8)] backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-[oklch(0.76_0.15_175_/_0.12)] bg-[oklch(0.17_0.045_255_/_0.8)] backdrop-blur-md">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <a href="#" className="flex items-center gap-2 font-semibold tracking-tight">
-          <Hexagon className="size-6 fill-[oklch(0.78_0.16_78_/_0.2)] text-hive" />
+          <Hexagon className="size-6 fill-[oklch(0.76_0.15_175_/_0.2)] text-hive" />
           <span>
             Ice Hive <span className="text-hive">Home</span>
           </span>
@@ -53,7 +54,7 @@ export default function Navbar() {
       </nav>
 
       {open && (
-        <div className="border-t border-[oklch(0.78_0.16_78_/_0.12)] px-6 py-4 md:hidden">
+        <div className="border-t border-[oklch(0.76_0.15_175_/_0.12)] px-6 py-4 md:hidden">
           <ul className="flex flex-col gap-4 text-sm text-white/80">
             {links.map((l) => (
               <li key={l.href}>
