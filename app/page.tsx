@@ -1,6 +1,7 @@
 import Navbar from "@/components/navbar"
 import Hero from "@/components/hero"
 import Features from "@/components/features"
+import SmartHomeShowcase from "@/components/smart-home-showcase"
 import Services from "@/components/services"
 import About from "@/components/about"
 import FoundersMessage from "@/components/founders-message"
@@ -14,6 +15,7 @@ export default function Page() {
       <main>
         <Hero />
         <Features />
+        <SmartHomeShowcase />
         <Services />
         <About />
         <FoundersMessage />

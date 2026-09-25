@@ -5,7 +5,7 @@ export default function Hero() {
     <section className="relative overflow-hidden hive-honeycomb">
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 md:py-28 lg:grid-cols-2">
         <div>
-          <span className="inline-flex items-center gap-2 rounded-full border border-[oklch(0.78_0.16_78_/_0.25)] bg-[oklch(0.78_0.16_78_/_0.08)] px-4 py-1.5 text-xs font-medium text-hive">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[oklch(0.76_0.15_175_/_0.25)] bg-[oklch(0.76_0.15_175_/_0.08)] px-4 py-1.5 text-xs font-medium text-hive">
             <ShieldCheck className="size-4" />
             Intelligent living, worry-free
           </span>
@@ -33,7 +33,7 @@ export default function Hero() {
         </div>
 
         <div className="relative">
-          <div className="overflow-hidden rounded-3xl border border-[oklch(0.78_0.16_78_/_0.2)] shadow-2xl">
+          <div className="overflow-hidden rounded-3xl border border-[oklch(0.76_0.15_175_/_0.2)] shadow-2xl">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/smart-home-hero.png"
