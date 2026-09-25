@@ -283,8 +283,53 @@
   }
 }
 
+/* ── Interactive house scene ── */
+/* Curtains slide based on the `open` state (data-driven, not looping) */
+.sh-panel {
+  background:
+    repeating-linear-gradient(90deg, oklch(0.24 0.05 255) 0 7px, oklch(0.29 0.06 255) 7px 14px);
+  box-shadow: inset 0 0 24px oklch(0 0 0 / 0.45);
+  transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+/* Camera scan line */
+.sh-scan { animation: shScan 2.6s linear infinite; }
+@keyframes shScan {
+  0% { transform: translateY(-110%); opacity: 0; }
+  10%, 90% { opacity: 1; }
+  100% { transform: translateY(110%); opacity: 0; }
+}
+
+/* Irrigation droplets */
+.sh-drip {
+  animation: shDrip 1.15s linear infinite;
+  animation-delay: calc(var(--i) * -0.28s);
+  will-change: transform, opacity;
+}
+@keyframes shDrip {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translateY(52px) scale(0.7); opacity: 0; }
+}
+
+/* Sensor ping */
+.sh-ping { animation: shPing 1.6s ease-out infinite; }
+@keyframes shPing {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* Soft breathing glow for active room elements */
+.sh-glow { animation: shGlow 2.4s ease-in-out infinite; }
+@keyframes shGlow {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .sh-orb, .sh-curtain-left, .sh-curtain-right, .sh-beam, .sh-scan, .sh-device {
+  .sh-orb, .sh-panel, .sh-scan, .sh-drip, .sh-ping, .sh-glow {
     animation: none;
+    transition: none;
   }
 }
