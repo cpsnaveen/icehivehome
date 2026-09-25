@@ -327,45 +327,8 @@
   50% { opacity: 1; }
 }
 
-/* IR curtains looping open/close over the interior window (realistic fabric) */
-.sh-cpanel {
-  background-image: url('/curtain-fabric.png');
-  background-size: 200% 100%;
-  background-repeat: no-repeat;
-  box-shadow: inset -18px 0 30px oklch(0 0 0 / 0.45), inset 18px 0 30px oklch(0 0 0 / 0.45);
-  filter: brightness(0.92) saturate(0.9);
-  will-change: transform;
-}
-.sh-cpanel-left {
-  background-position: left center;
-  transform-origin: left center;
-  border-right: 1px solid oklch(0 0 0 / 0.35);
-  animation: shCPanelL 6.5s ease-in-out infinite;
-}
-.sh-cpanel-right {
-  background-position: right center;
-  transform-origin: right center;
-  border-left: 1px solid oklch(0 0 0 / 0.35);
-  animation: shCPanelR 6.5s ease-in-out infinite;
-}
-@keyframes shCPanelL {
-  0%, 14%, 88%, 100% { transform: translateX(0) scaleX(1); }
-  42%, 66% { transform: translateX(-92%) scaleX(0.7); }
-}
-@keyframes shCPanelR {
-  0%, 14%, 88%, 100% { transform: translateX(0) scaleX(1); }
-  42%, 66% { transform: translateX(92%) scaleX(0.7); }
-}
-/* warm interior brightening revealed when curtains open */
-.sh-window-glow { animation: shWindowGlow 6.5s ease-in-out infinite; }
-@keyframes shWindowGlow {
-  0%, 18%, 84%, 100% { opacity: 0; }
-  46%, 62% { opacity: 1; }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .sh-orb, .sh-panel, .sh-scan, .sh-drip, .sh-ping, .sh-glow,
-  .sh-cpanel-left, .sh-cpanel-right, .sh-window-glow {
+  .sh-orb, .sh-panel, .sh-scan, .sh-drip, .sh-ping, .sh-glow {
     animation: none;
     transition: none;
   }
