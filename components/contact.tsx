@@ -17,7 +17,7 @@ export default function Contact() {
                 <Mail className="size-5 text-hive" /> hello@icehivehome.com
               </li>
               <li className="flex items-center gap-3 text-white/80">
-                <Phone className="size-5 text-hive" /> +971 52 548 1150
+                <Phone className="size-5 text-hive" /> +971 52 548 1550
               </li>
               <li className="flex items-center gap-3 text-white/80">
                 <MapPin className="size-5 text-hive" /> Serving homes worldwide
