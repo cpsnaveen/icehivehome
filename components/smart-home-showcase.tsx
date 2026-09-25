@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Image from "next/image"
 import {
   DoorClosed,
   Lightbulb,
@@ -10,7 +11,6 @@ import {
   Blinds,
   PlugZap,
   Droplets,
-  Sprout,
 } from "lucide-react"
 
 type DeviceId =
@@ -28,20 +28,22 @@ type Device = {
   label: string
   icon: typeof DoorClosed
   desc: string
+  /** hotspot position over the villa image, in % */
+  pos: { top: number; left: number }
 }
 
 const devices: Device[] = [
-  { id: "doorSensors", label: "Door Sensors", icon: DoorClosed, desc: "Instant alerts the moment a door opens or closes." },
-  { id: "light", label: "Smart Light", icon: Lightbulb, desc: "Set the mood — dim, brighten or schedule every room." },
-  { id: "plugs", label: "Smart Plugs", icon: Plug, desc: "Turn any appliance on or off from your phone." },
-  { id: "camera", label: "Door Camera", icon: Camera, desc: "See and speak to whoever is at your door, live." },
-  { id: "locks", label: "Door Locks", icon: Lock, desc: "Keyless entry — lock and unlock from anywhere." },
-  { id: "curtains", label: "IR Curtains", icon: Blinds, desc: "IR-operated curtains open and close on command." },
-  { id: "powerStrips", label: "Smart Power Strips", icon: PlugZap, desc: "Control and meter a whole cluster of devices at once." },
-  { id: "irrigation", label: "Smart Irrigation", icon: Droplets, desc: "Automated garden watering, tuned to the weather." },
+  { id: "doorSensors", label: "Door Sensors", icon: DoorClosed, desc: "Instant alerts the moment a door opens or closes.", pos: { top: 60, left: 41 } },
+  { id: "light", label: "Smart Light", icon: Lightbulb, desc: "Set the mood — dim, brighten or schedule every room.", pos: { top: 33, left: 30 } },
+  { id: "plugs", label: "Smart Plugs", icon: Plug, desc: "Turn any appliance on or off from your phone.", pos: { top: 63, left: 28 } },
+  { id: "camera", label: "Door Camera", icon: Camera, desc: "See and speak to whoever is at your door, live.", pos: { top: 45, left: 50 } },
+  { id: "locks", label: "Door Locks", icon: Lock, desc: "Keyless entry — lock and unlock from anywhere.", pos: { top: 62, left: 55 } },
+  { id: "curtains", label: "IR Curtains", icon: Blinds, desc: "IR-operated curtains open and close on command.", pos: { top: 33, left: 70 } },
+  { id: "powerStrips", label: "Smart Power Strips", icon: PlugZap, desc: "Control and meter a whole cluster of devices at once.", pos: { top: 63, left: 72 } },
+  { id: "irrigation", label: "Smart Irrigation", icon: Droplets, desc: "Automated garden watering, tuned to the weather.", pos: { top: 86, left: 50 } },
 ]
 
-export default function SmartHomeShowcase() {
+export function SmartHomeShowcase() {
   const [active, setActive] = useState<DeviceId>("light")
   const [auto, setAuto] = useState(true)
 
@@ -63,16 +65,6 @@ export default function SmartHomeShowcase() {
 
   const activeDevice = devices.find((d) => d.id === active)!
 
-  // Derived scene state
-  const lightOn = active === "light"
-  const curtainsOpen = active === "curtains"
-  const cameraOn = active === "camera"
-  const locked = active === "locks"
-  const doorSensorOn = active === "doorSensors"
-  const plugsOn = active === "plugs"
-  const stripsOn = active === "powerStrips"
-  const irrigationOn = active === "irrigation"
-
   return (
     <section id="showcase" className="relative border-t border-border bg-background py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-6">
@@ -82,184 +74,101 @@ export default function SmartHomeShowcase() {
             Watch your home come alive
           </h2>
           <p className="mt-4 text-pretty leading-relaxed text-muted-foreground">
-            Tap any device on the right and see the house respond in real time — the same way it
-            reacts to a tap in the IceHive app.
+            Tap any device on the right and watch it light up across the villa in real time — the
+            same way it responds to a tap in the IceHive app.
           </p>
         </div>
 
         <div className="mt-14 grid items-stretch gap-6 lg:grid-cols-[1.4fr_1fr]">
-          {/* House scene */}
+          {/* Villa scene */}
           <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-4 sm:p-6">
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl sh-sky">
-              {/* Sun/moon orb */}
-              <div className="pointer-events-none absolute right-8 top-6 h-12 w-12 rounded-full bg-primary/70 blur-[2px]" />
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl">
+              <Image
+                src="/smart-villa.png"
+                alt="Modern smart villa at dusk"
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 60vw"
+                className="object-cover"
+              />
 
-              {/* House body */}
-              <div className="absolute inset-x-6 bottom-16 top-14 rounded-t-md border border-white/10 bg-[oklch(0.22_0.04_258)]">
-                {/* Roof */}
-                <div className="absolute -top-8 -left-2 -right-2 h-8">
-                  <div
-                    className="mx-auto h-0 w-0"
-                    style={{
-                      borderLeft: "24px solid transparent",
-                      borderRight: "24px solid transparent",
-                      borderBottom: "32px solid oklch(0.26 0.05 258)",
-                      width: "0",
-                    }}
-                  />
-                  <div className="absolute inset-x-6 top-6 h-3 rounded-t-sm bg-[oklch(0.26_0.05_258)]" />
-                </div>
+              {/* subtle vignette so hotspots read clearly */}
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,transparent_40%,oklch(0.12_0.03_258_/_0.55))]" />
 
-                {/* Ceiling light */}
-                <div className="absolute left-1/2 top-3 -translate-x-1/2 flex flex-col items-center">
-                  <div className="h-4 w-px bg-white/20" />
-                  <div
-                    className={`h-4 w-4 rounded-full transition-all duration-500 ${
-                      lightOn
-                        ? "bg-primary shadow-[0_0_28px_10px_oklch(0.85_0.15_178_/_0.55)]"
-                        : "bg-white/25"
-                    }`}
-                  />
-                  {lightOn && (
-                    <div
-                      className="pointer-events-none absolute top-6 h-24 w-32 sh-glow"
-                      style={{
-                        background:
-                          "linear-gradient(180deg, oklch(0.85 0.15 178 / 0.35), transparent 80%)",
-                        clipPath: "polygon(35% 0, 65% 0, 100% 100%, 0 100%)",
-                      }}
-                    />
-                  )}
-                </div>
+              {/* Moving spotlight glow at active device */}
+              <div
+                className="pointer-events-none absolute h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-700 ease-out"
+                style={{
+                  top: `${activeDevice.pos.top}%`,
+                  left: `${activeDevice.pos.left}%`,
+                  background:
+                    "radial-gradient(circle, oklch(0.85 0.15 178 / 0.45), oklch(0.75 0.16 160 / 0.15) 45%, transparent 70%)",
+                }}
+              />
 
-                {/* Windows with IR curtains */}
-                {[0, 1].map((w) => (
-                  <div
-                    key={w}
-                    className="absolute top-10 h-20 w-16 overflow-hidden rounded-sm border border-white/15 bg-[oklch(0.3_0.07_240)]"
-                    style={{ left: w === 0 ? "10%" : "auto", right: w === 1 ? "10%" : "auto" }}
+              {/* Device hotspots */}
+              {devices.map((d) => {
+                const Icon = d.icon
+                const isActive = d.id === active
+                return (
+                  <button
+                    key={d.id}
+                    type="button"
+                    onClick={() => select(d.id)}
+                    aria-label={d.label}
+                    aria-pressed={isActive}
+                    className="absolute -translate-x-1/2 -translate-y-1/2"
+                    style={{ top: `${d.pos.top}%`, left: `${d.pos.left}%` }}
                   >
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,oklch(0.78_0.15_178_/_0.4),transparent_60%)]" />
-                    {/* curtain panels */}
-                    <div
-                      className="sh-panel absolute inset-y-0 left-0 w-1/2"
-                      style={{ transform: curtainsOpen ? "translateX(-96%)" : "translateX(0)" }}
-                    />
-                    <div
-                      className="sh-panel absolute inset-y-0 right-0 w-1/2"
-                      style={{ transform: curtainsOpen ? "translateX(96%)" : "translateX(0)" }}
-                    />
-                  </div>
-                ))}
-
-                {/* Power strip / plugs on the wall */}
-                <div className="absolute bottom-14 left-6 flex items-center gap-1.5">
-                  <div
-                    className={`h-3 w-3 rounded-sm border transition-all duration-300 ${
-                      plugsOn
-                        ? "border-primary bg-primary/70 shadow-[0_0_14px_oklch(0.85_0.15_178_/_0.6)]"
-                        : "border-white/20 bg-white/10"
-                    }`}
-                  />
-                  <div className="flex gap-1 rounded-sm border border-white/15 bg-[oklch(0.24_0.05_255)] p-1">
-                    {[0, 1, 2, 3].map((s) => (
+                    <span className="relative flex items-center justify-center">
+                      {isActive && (
+                        <span className="sh-ping absolute inline-flex h-full w-full rounded-full bg-primary/50" />
+                      )}
                       <span
-                        key={s}
-                        className={`h-2 w-2 rounded-full transition-all duration-300 ${
-                          stripsOn
-                            ? "bg-primary shadow-[0_0_10px_oklch(0.85_0.15_178_/_0.7)]"
-                            : "bg-white/25"
+                        className={`relative flex h-8 w-8 items-center justify-center rounded-full border backdrop-blur-sm transition-all duration-300 ${
+                          isActive
+                            ? "scale-110 border-primary bg-primary/25 text-primary shadow-[0_0_20px_oklch(0.85_0.15_178_/_0.7)]"
+                            : "border-white/30 bg-black/30 text-white/70 hover:border-primary/60 hover:text-primary"
                         }`}
-                        style={{ transitionDelay: stripsOn ? `${s * 90}ms` : "0ms" }}
+                      >
+                        <Icon className="h-4 w-4" />
+                      </span>
+                    </span>
+                  </button>
+                )
+              })}
+
+              {/* Camera scan effect */}
+              {active === "camera" && (
+                <div
+                  className="pointer-events-none absolute h-14 w-16 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-md border border-primary/60"
+                  style={{ top: `${activeDevice.pos.top}%`, left: `${activeDevice.pos.left}%` }}
+                >
+                  <span className="sh-scan absolute inset-x-0 top-0 h-1/2 bg-[linear-gradient(180deg,oklch(0.85_0.15_178_/_0.7),transparent)]" />
+                </div>
+              )}
+
+              {/* Irrigation droplets */}
+              {active === "irrigation" && (
+                <div
+                  className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2"
+                  style={{ top: `${activeDevice.pos.top - 6}%`, left: `${activeDevice.pos.left}%` }}
+                >
+                  <div className="flex gap-1.5">
+                    {[0, 1, 2, 3, 4].map((dp) => (
+                      <span
+                        key={dp}
+                        className="sh-drip block h-2 w-2 rounded-full bg-[oklch(0.8_0.14_210)]"
+                        style={{ ["--i" as string]: dp }}
                       />
                     ))}
                   </div>
                 </div>
-
-                {/* Front door */}
-                <div className="absolute bottom-0 left-1/2 h-24 w-16 -translate-x-1/2 rounded-t-md border border-white/15 bg-[oklch(0.26_0.05_258)]">
-                  {/* Door camera */}
-                  <div className="absolute -top-1 left-1/2 flex -translate-x-1/2 -translate-y-full flex-col items-center">
-                    <div
-                      className={`relative h-3 w-5 overflow-hidden rounded-sm border transition-colors ${
-                        cameraOn ? "border-primary bg-[oklch(0.2_0.05_258)]" : "border-white/20 bg-white/10"
-                      }`}
-                    >
-                      <span
-                        className={`absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full ${
-                          cameraOn ? "bg-primary" : "bg-white/40"
-                        }`}
-                      />
-                      {cameraOn && (
-                        <span className="sh-scan absolute inset-x-0 top-0 h-1/2 bg-[linear-gradient(180deg,oklch(0.85_0.15_178_/_0.7),transparent)]" />
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Door sensor */}
-                  <div className="absolute right-1 top-2 flex items-center justify-center">
-                    <span
-                      className={`relative h-2 w-2 rounded-full ${
-                        doorSensorOn ? "bg-primary" : "bg-white/25"
-                      }`}
-                    >
-                      {doorSensorOn && (
-                        <span className="sh-ping absolute inset-0 rounded-full bg-primary/60" />
-                      )}
-                    </span>
-                  </div>
-
-                  {/* Lock handle */}
-                  <div className="absolute left-2 top-1/2 -translate-y-1/2">
-                    <Lock
-                      className={`h-3.5 w-3.5 transition-colors ${
-                        locked ? "text-primary" : "text-white/40"
-                      }`}
-                      strokeWidth={2.5}
-                    />
-                    {locked && (
-                      <span className="absolute -inset-1 rounded-full bg-primary/20 sh-glow" />
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Garden + smart irrigation */}
-              <div className="absolute inset-x-0 bottom-0 h-16 bg-[linear-gradient(180deg,oklch(0.32_0.08_150),oklch(0.24_0.06_150))]">
-                {/* plants */}
-                <div className="absolute bottom-3 left-6 flex items-end gap-2">
-                  {[0, 1, 2].map((p) => (
-                    <Sprout
-                      key={p}
-                      className={`h-5 w-5 transition-colors duration-500 ${
-                        irrigationOn ? "text-[oklch(0.82_0.17_150)]" : "text-[oklch(0.6_0.1_150)]"
-                      }`}
-                    />
-                  ))}
-                </div>
-                {/* sprinkler + droplets */}
-                <div className="absolute bottom-6 right-8 flex flex-col items-center">
-                  <div
-                    className={`h-2 w-6 rounded-sm border transition-colors ${
-                      irrigationOn ? "border-primary bg-primary/60" : "border-white/20 bg-white/10"
-                    }`}
-                  />
-                  {irrigationOn && (
-                    <div className="pointer-events-none absolute -top-1 flex gap-1">
-                      {[0, 1, 2, 3, 4].map((d) => (
-                        <span
-                          key={d}
-                          className="sh-drip block h-1.5 w-1.5 rounded-full bg-[oklch(0.8_0.14_210)]"
-                          style={{ ["--i" as string]: d }}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
+              )}
 
               {/* Active label */}
-              <div className="absolute left-4 top-4 rounded-full border border-white/15 bg-black/30 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
+              <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full border border-white/15 bg-black/40 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary sh-ping" />
                 {activeDevice.label}
               </div>
             </div>
@@ -305,3 +214,5 @@ export default function SmartHomeShowcase() {
     </section>
   )
 }
+
+export default SmartHomeShowcase
