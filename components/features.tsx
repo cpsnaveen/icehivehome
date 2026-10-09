@@ -4,43 +4,56 @@ const features = [
   {
     icon: Brain,
     title: "Smart",
-    desc: "Intelligent automation that learns and adapts to your lifestyle.",
+    desc: "Intelligent automation that learns and adapts to your lifestyle, so the home works for you.",
   },
   {
     icon: ShieldCheck,
     title: "Reliable",
-    desc: "Systems you can trust, 24/7, whenever you need them.",
+    desc: "Systems engineered, tested and commissioned to be trusted 24/7, whenever you need them.",
   },
   {
     icon: Leaf,
     title: "Sustainable",
-    desc: "Technology that cares for our planet's future.",
+    desc: "Scheduling and energy modes that reduce waste and care for our planet's future.",
   },
   {
     icon: Users,
     title: "Accessible",
-    desc: "Premium automation available to all, not just the privileged.",
+    desc: "Premium automation made simple and attainable for everyone, not just the privileged.",
   },
 ]
 
 export default function Features() {
   return (
-    <section id="features" className="mx-auto max-w-6xl px-6 py-20">
-      <div className="mx-auto max-w-2xl text-center">
-        <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Built on four promises</h2>
-        <p className="mt-4 text-white/70">Every Ice Hive system is designed around the values that matter most.</p>
-      </div>
-
-      <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {features.map((f) => (
-          <div key={f.title} className="hive-panel rounded-2xl p-6">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-[oklch(0.76_0.15_175_/_0.12)] text-hive">
-              <f.icon className="size-6" />
-            </div>
-            <h3 className="mt-5 text-lg font-semibold">{f.title}</h3>
-            <p className="mt-2 text-sm text-white/65">{f.desc}</p>
+    <section id="features" className="bg-paper font-body text-ink">
+      <div className="mx-auto max-w-7xl px-6 py-24 md:py-32">
+        <div className="grid gap-10 lg:grid-cols-2 lg:items-end">
+          <div>
+            <span className="ih-eyebrow text-navy">Our Promise</span>
+            <h2 className="mt-6 font-display text-4xl font-bold leading-tight tracking-tight text-balance md:text-5xl">
+              Invisible intelligence. Effortless living.
+            </h2>
           </div>
-        ))}
+          <p className="max-w-xl text-pretty text-lg leading-relaxed text-ink/65">
+            Ice Hive integrates technology so completely that the experience feels natural, calm and dependable. Smart
+            living should serve your architecture and daily routine — never compete with them.
+          </p>
+        </div>
+
+        <div className="mt-16 grid border-l border-t border-ink/12 sm:grid-cols-2 lg:grid-cols-4">
+          {features.map((f) => (
+            <div
+              key={f.title}
+              className="group border-b border-r border-ink/12 bg-paper p-8 transition-colors hover:bg-navy hover:text-paper"
+            >
+              <f.icon className="size-7 text-navy transition-colors group-hover:text-hive" strokeWidth={1.6} />
+              <h3 className="mt-14 font-display text-2xl font-semibold">{f.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-ink/65 transition-colors group-hover:text-paper/70">
+                {f.desc}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )

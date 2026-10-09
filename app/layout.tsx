@@ -1,11 +1,15 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import { Inter, Inter_Tight } from 'next/font/google'
 import './globals.css'
 
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
+const interTight = Inter_Tight({ subsets: ['latin'], variable: '--font-inter-tight', display: 'swap' })
+
 export const metadata: Metadata = {
-  title: 'Ice Hive Home — Intelligent Home Automation',
+  title: 'Ice Hive Home — Smart Home Technology, Designed Around You',
   description:
-    'Ice Hive Home delivers smart, reliable, sustainable, and accessible home automation. Read our founder\u2019s vision for the connected home.',
+    'Ice Hive Home designs and delivers intelligent home automation — lighting, climate, curtains, security, access, audio and networking integrated into one seamless experience.',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -29,8 +33,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   colorScheme: 'light dark',
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: '#0b1a2e' },
+    { media: '(prefers-color-scheme: light)', color: '#f5f6f9' },
+    { media: '(prefers-color-scheme: dark)', color: '#0e1a4f' },
   ],
 }
 
@@ -40,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${interTight.variable} bg-navy-deep`}>
       <body className="antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
