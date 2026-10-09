@@ -1,12 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { Hexagon, Menu, X } from "lucide-react"
+import { ArrowUpRight, Hexagon, Menu, X } from "lucide-react"
 
 const links = [
-  { label: "Features", href: "#features" },
-  { label: "Showcase", href: "#showcase" },
-  { label: "Services", href: "#services" },
+  { label: "Solutions", href: "#services" },
+  { label: "Live Demo", href: "#showcase" },
+  { label: "Scenes", href: "#scenes" },
+  { label: "Process", href: "#process" },
   { label: "About", href: "#about" },
   { label: "Founder", href: "#founder" },
   { label: "Contact", href: "#contact" },
@@ -16,19 +17,20 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[oklch(0.76_0.15_175_/_0.12)] bg-[oklch(0.17_0.045_255_/_0.8)] backdrop-blur-md">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="#" className="flex items-center gap-2 font-semibold tracking-tight">
-          <Hexagon className="size-6 fill-[oklch(0.76_0.15_175_/_0.2)] text-hive" />
-          <span>
-            Ice Hive <span className="text-hive">Home</span>
+    <header className="sticky top-0 z-50 border-b border-ink/10 bg-paper/95 font-body text-ink backdrop-blur-md">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+        <a href="#" className="flex items-center gap-2.5" aria-label="Ice Hive Home, back to top">
+          <Hexagon className="size-7 fill-hive/25 text-navy" strokeWidth={2.2} />
+          <span className="flex flex-col leading-none">
+            <span className="font-display text-lg font-extrabold uppercase tracking-tight text-navy">Ice Hive</span>
+            <span className="mt-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-ink/60">Home</span>
           </span>
         </a>
 
-        <ul className="hidden items-center gap-8 text-sm text-white/70 md:flex">
+        <ul className="hidden items-center gap-7 text-sm text-ink/70 lg:flex">
           {links.map((l) => (
             <li key={l.href}>
-              <a href={l.href} className="transition-colors hover:text-hive">
+              <a href={l.href} className="transition-colors hover:text-navy">
                 {l.label}
               </a>
             </li>
@@ -37,14 +39,14 @@ export default function Navbar() {
 
         <a
           href="#contact"
-          className="hidden rounded-full bg-hive px-5 py-2 text-sm font-medium text-hive-foreground transition-opacity hover:opacity-90 md:inline-block"
+          className="hidden items-center gap-2 rounded-sm bg-navy px-5 py-3 text-sm font-semibold text-paper transition-colors hover:bg-navy-deep lg:inline-flex"
         >
-          Get Started
+          Start a Project <ArrowUpRight className="size-4 text-hive" />
         </a>
 
         <button
           type="button"
-          className="text-white/80 md:hidden"
+          className="text-ink lg:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
@@ -54,15 +56,24 @@ export default function Navbar() {
       </nav>
 
       {open && (
-        <div className="border-t border-[oklch(0.76_0.15_175_/_0.12)] px-6 py-4 md:hidden">
-          <ul className="flex flex-col gap-4 text-sm text-white/80">
+        <div className="border-t border-ink/10 px-6 py-4 lg:hidden">
+          <ul className="flex flex-col gap-1 text-sm text-ink/80">
             {links.map((l) => (
               <li key={l.href}>
-                <a href={l.href} className="block py-1 hover:text-hive" onClick={() => setOpen(false)}>
+                <a href={l.href} className="block py-2 hover:text-navy" onClick={() => setOpen(false)}>
                   {l.label}
                 </a>
               </li>
             ))}
+            <li className="pt-2">
+              <a
+                href="#contact"
+                onClick={() => setOpen(false)}
+                className="inline-flex items-center gap-2 rounded-sm bg-navy px-5 py-3 font-semibold text-paper"
+              >
+                Start a Project <ArrowUpRight className="size-4 text-hive" />
+              </a>
+            </li>
           </ul>
         </div>
       )}

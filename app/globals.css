@@ -156,11 +156,61 @@
 @theme inline {
   --color-hive: var(--hive);
   --color-hive-foreground: var(--hive-foreground);
+  --color-navy: var(--ih-navy);
+  --color-navy-deep: var(--ih-navy-deep);
+  --color-paper: var(--ih-paper);
+  --color-ink: var(--ih-ink);
+  --font-display: var(--font-inter-tight), 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
   --hive: oklch(0.78 0.15 178);
   --hive-foreground: oklch(0.17 0.05 255);
+  /* Modern brand surfaces (used outside the Live Demo only) */
+  --ih-navy: oklch(0.24 0.11 266);
+  --ih-navy-deep: oklch(0.19 0.08 266);
+  --ih-paper: oklch(0.97 0.004 250);
+  --ih-ink: oklch(0.2 0.04 265);
+}
+
+/* Eyebrow label with a leading hairline, e.g. "—— 01 / Our Promise" */
+.ih-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.ih-eyebrow::before {
+  content: '';
+  width: 1.75rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+/* Fine engineering grid used on navy surfaces */
+.ih-grid-lines {
+  background-image:
+    linear-gradient(oklch(1 0 0 / 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(1 0 0 / 0.04) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+/* Staggered entrance for the hero */
+.ih-rise {
+  animation: ihRise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--d, 0) * 110ms);
+}
+@keyframes ihRise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ih-rise { animation: none; }
 }
 
 @layer base {
