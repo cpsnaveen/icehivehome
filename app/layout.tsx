@@ -11,6 +11,17 @@ export const metadata: Metadata = {
   description:
     'Ice Hive Home designs and delivers intelligent home automation — lighting, climate, curtains, security, access, audio and networking integrated into one seamless experience.',
   generator: 'v0.app',
+  openGraph: {
+    title: 'Ice Hive Home — Smart Home Technology, Designed Around You',
+    description:
+      'Intelligent home automation — lighting, climate, curtains, security, access, audio and networking in one seamless experience.',
+    siteName: 'Ice Hive Home',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ice Hive Home — Smart Home Technology, Designed Around You',
+  },
   icons: {
     icon: [
       {
