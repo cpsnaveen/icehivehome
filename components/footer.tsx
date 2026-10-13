@@ -37,7 +37,7 @@ export default function Footer() {
           <div>
             <a href="#" className="flex items-center gap-3" aria-label="Ice Hive Home, back to top">
               <span className="flex size-11 items-center justify-center rounded-md bg-paper p-1">
-                <Image src="/ice-hive-mark.png" alt="" width={40} height={40} className="size-9" />
+                <Image src="/ice-hive-mark.png" alt="" width={35} height={40} className="h-9 w-auto" />
               </span>
               <span className="font-display text-lg font-extrabold uppercase tracking-tight">
                 Ice Hive <span className="text-hive">Home</span>

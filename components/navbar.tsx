@@ -21,7 +21,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-ink/10 bg-paper/95 font-body text-ink backdrop-blur-md">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <a href="#" className="flex items-center gap-2.5" aria-label="Ice Hive Home, back to top">
-          <Image src="/ice-hive-mark.png" alt="" width={40} height={40} priority className="size-10 mix-blend-multiply" />
+          <Image src="/ice-hive-mark.png" alt="" width={40} height={40} priority className="h-10 w-auto" />
           <span className="flex flex-col leading-none">
             <span className="font-display text-lg font-extrabold uppercase tracking-tight text-navy">Ice Hive</span>
             <span className="mt-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-ink/60">Home</span>
