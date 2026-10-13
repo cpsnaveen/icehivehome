@@ -1,4 +1,4 @@
-import { Hexagon } from "lucide-react"
+import Image from "next/image"
 
 const columns = [
   {
@@ -35,8 +35,10 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div>
-            <a href="#" className="flex items-center gap-2.5">
-              <Hexagon className="size-7 fill-hive/20 text-hive" strokeWidth={2.2} />
+            <a href="#" className="flex items-center gap-3" aria-label="Ice Hive Home, back to top">
+              <span className="flex size-11 items-center justify-center rounded-md bg-paper p-1">
+                <Image src="/ice-hive-mark.png" alt="" width={40} height={40} className="size-9" />
+              </span>
               <span className="font-display text-lg font-extrabold uppercase tracking-tight">
                 Ice Hive <span className="text-hive">Home</span>
               </span>

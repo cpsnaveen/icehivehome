@@ -1,7 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { ArrowUpRight, Hexagon, Menu, X } from "lucide-react"
+import Image from "next/image"
+import { ArrowUpRight, Menu, X } from "lucide-react"
 
 const links = [
   { label: "Solutions", href: "#services" },
@@ -20,7 +21,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-ink/10 bg-paper/95 font-body text-ink backdrop-blur-md">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <a href="#" className="flex items-center gap-2.5" aria-label="Ice Hive Home, back to top">
-          <Hexagon className="size-7 fill-hive/25 text-navy" strokeWidth={2.2} />
+          <Image src="/ice-hive-mark.png" alt="" width={40} height={40} priority className="size-10 mix-blend-multiply" />
           <span className="flex flex-col leading-none">
             <span className="font-display text-lg font-extrabold uppercase tracking-tight text-navy">Ice Hive</span>
             <span className="mt-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-ink/60">Home</span>

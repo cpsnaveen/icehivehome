@@ -19,11 +19,11 @@ export default async function OpengraphImage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: '#e7ebed',
+          background: '#ffffff',
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={logoSrc} alt="" width={760} height={335} style={{ objectFit: 'contain' }} />
+        <img src={logoSrc} alt="" width={600} height={600} style={{ objectFit: 'contain' }} />
       </div>
     ),
     size,
