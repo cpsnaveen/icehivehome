@@ -1,7 +1,5 @@
-import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react"
-
-const fieldClass =
-  "w-full rounded-sm border border-ink/15 bg-paper px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-ink/40 focus:border-navy focus:ring-2 focus:ring-hive/40"
+import { Mail, Phone, MapPin } from "lucide-react"
+import ContactForm from "@/components/contact-form"
 
 export default function Contact() {
   return (
@@ -27,8 +25,8 @@ export default function Contact() {
               </li>
               <li className="flex items-center gap-4 border-b border-ink/12 py-5">
                 <Mail className="size-5 text-navy" />
-                <a href="mailto:hello@icehivehome.com" className="font-medium transition-colors hover:text-navy">
-                  hello@icehivehome.com
+                <a href="mailto:support@icehivehome.com" className="font-medium transition-colors hover:text-navy">
+                  support@icehivehome.com
                 </a>
               </li>
               <li className="flex items-center gap-4 border-b border-ink/12 py-5">
@@ -38,53 +36,7 @@ export default function Contact() {
             </ul>
           </div>
 
-          <form className="flex flex-col gap-5 rounded-sm bg-navy p-8 md:p-10" action="#" method="post">
-            <h3 className="font-display text-2xl font-semibold text-paper">Request a consultation</h3>
-            <div className="grid gap-5 sm:grid-cols-2">
-              <div>
-                <label htmlFor="name" className="mb-2 block text-xs font-semibold uppercase tracking-[0.15em] text-paper/70">
-                  Name
-                </label>
-                <input id="name" name="name" type="text" autoComplete="name" required className={fieldClass} />
-              </div>
-              <div>
-                <label htmlFor="phone" className="mb-2 block text-xs font-semibold uppercase tracking-[0.15em] text-paper/70">
-                  Phone
-                </label>
-                <input id="phone" name="phone" type="tel" autoComplete="tel" className={fieldClass} />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="email" className="mb-2 block text-xs font-semibold uppercase tracking-[0.15em] text-paper/70">
-                Email
-              </label>
-              <input id="email" name="email" type="email" autoComplete="email" required className={fieldClass} />
-            </div>
-            <div>
-              <label htmlFor="property" className="mb-2 block text-xs font-semibold uppercase tracking-[0.15em] text-paper/70">
-                Property type
-              </label>
-              <select id="property" name="property" defaultValue="Villa" className={fieldClass}>
-                <option>Villa</option>
-                <option>Apartment</option>
-                <option>Townhouse</option>
-                <option>Office</option>
-                <option>Other</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="message" className="mb-2 block text-xs font-semibold uppercase tracking-[0.15em] text-paper/70">
-                Tell us about your project
-              </label>
-              <textarea id="message" name="message" rows={4} required className={`${fieldClass} resize-none`} />
-            </div>
-            <button
-              type="submit"
-              className="mt-2 inline-flex items-center justify-center gap-3 rounded-sm bg-hive px-6 py-4 text-sm font-semibold text-hive-foreground transition-opacity hover:opacity-90"
-            >
-              Send Enquiry <ArrowUpRight className="size-4" />
-            </button>
-          </form>
+          <ContactForm />
         </div>
       </div>
     </section>
