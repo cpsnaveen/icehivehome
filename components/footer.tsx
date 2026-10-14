@@ -23,7 +23,7 @@ const columns = [
     title: "Contact",
     links: [
       { label: "+971 52 548 1550", href: "tel:+971525481550" },
-      { label: "hello@icehivehome.com", href: "mailto:hello@icehivehome.com" },
+      { label: "support@icehivehome.com", href: "mailto:support@icehivehome.com" },
       { label: "WhatsApp", href: "https://wa.me/971525481550" },
     ],
   },
