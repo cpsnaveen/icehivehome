@@ -10,21 +10,39 @@ import FoundersMessage from "@/components/founders-message"
 import Contact from "@/components/contact"
 import Footer from "@/components/footer"
 import WhatsAppButton from "@/components/whatsapp-button"
+import Reveal from "@/components/reveal"
 
 export default function Page() {
   return (
     <div className="hive-bg min-h-screen font-sans antialiased">
+      <div className="ih-progress" aria-hidden="true" />
       <Navbar />
-      <main>
+      <main className="overflow-x-clip">
         <Hero />
-        <Features />
-        <SmartHomeShowcase />
-        <Services />
-        <Scenes />
-        <Process />
-        <About />
-        <FoundersMessage />
-        <Contact />
+        <Reveal variant="rise">
+          <Features />
+        </Reveal>
+        <Reveal variant="wipe">
+          <SmartHomeShowcase />
+        </Reveal>
+        <Reveal variant="zoom">
+          <Services />
+        </Reveal>
+        <Reveal variant="drift">
+          <Scenes />
+        </Reveal>
+        <Reveal variant="wipe">
+          <Process />
+        </Reveal>
+        <Reveal variant="rise">
+          <About />
+        </Reveal>
+        <Reveal variant="zoom">
+          <FoundersMessage />
+        </Reveal>
+        <Reveal variant="rise">
+          <Contact />
+        </Reveal>
       </main>
       <Footer />
       <WhatsAppButton />
