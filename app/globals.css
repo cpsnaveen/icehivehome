@@ -213,6 +213,91 @@
   .ih-rise { animation: none; }
 }
 
+/* Section transitions: each section enters as it scrolls into view */
+.ih-reveal {
+  position: relative;
+  transition:
+    opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.9s ease-out,
+    clip-path 1.2s cubic-bezier(0.77, 0, 0.18, 1);
+}
+.ih-reveal[data-revealed="false"] { opacity: 0; filter: blur(4px); }
+.ih-reveal[data-variant="rise"][data-revealed="false"] { transform: translateY(64px); }
+.ih-reveal[data-variant="zoom"][data-revealed="false"] { transform: scale(0.94); }
+.ih-reveal[data-variant="drift"][data-revealed="false"] { transform: translateX(-56px); }
+.ih-reveal[data-variant="wipe"] { clip-path: inset(0 0 0 0); }
+.ih-reveal[data-variant="wipe"][data-revealed="false"] {
+  clip-path: inset(12% 6% 12% 6% round 24px);
+  transform: translateY(32px);
+}
+
+/* Teal scan line that sweeps across the top edge as a section arrives */
+.ih-reveal::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 10;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--hive), transparent);
+  transform: scaleX(0);
+  opacity: 0;
+  pointer-events: none;
+}
+.ih-reveal[data-revealed="true"]::before {
+  animation: ihSweep 1.4s cubic-bezier(0.65, 0, 0.35, 1) 0.1s both;
+}
+@keyframes ihSweep {
+  0% { transform: scaleX(0); opacity: 1; }
+  60% { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0; }
+}
+
+/* Headings land a beat after their section for a layered feel */
+.ih-reveal[data-revealed="true"] .ih-eyebrow {
+  animation: ihRise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both;
+}
+.ih-reveal[data-revealed="true"] h2 {
+  animation: ihRise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.32s both;
+}
+
+/* Reading progress bar driven by page scroll */
+.ih-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 70;
+  height: 3px;
+  background: var(--hive);
+  transform-origin: left;
+  transform: scaleX(0);
+  pointer-events: none;
+  display: none;
+}
+@supports (animation-timeline: scroll()) {
+  .ih-progress {
+    display: block;
+    animation: ihProgress linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes ihProgress {
+  to { transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ih-reveal,
+  .ih-reveal[data-revealed="false"] {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    clip-path: none;
+    transition: none;
+  }
+  .ih-reveal::before,
+  .ih-reveal .ih-eyebrow,
+  .ih-reveal h2 { animation: none !important; }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
