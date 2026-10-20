@@ -70,7 +70,7 @@ export function SmartHomeShowcase() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <span className="text-sm font-medium uppercase tracking-widest hive-accent">Live Demo</span>
-          <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight md:text-4xl">
+          <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
             Watch your home come alive
           </h2>
           <p className="mt-4 text-pretty leading-relaxed text-muted-foreground">
