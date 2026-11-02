@@ -1,5 +1,6 @@
 import Navbar from "@/components/navbar"
 import Hero from "@/components/hero"
+import BrandFilm from "@/components/brand-film"
 import Features from "@/components/features"
 import SmartHomeShowcase from "@/components/smart-home-showcase"
 import Services from "@/components/services"
@@ -19,6 +20,9 @@ export default function Page() {
       <Navbar />
       <main className="overflow-x-clip">
         <Hero />
+        <Reveal variant="zoom">
+          <BrandFilm />
+        </Reveal>
         <Reveal variant="rise">
           <Features />
         </Reveal>
