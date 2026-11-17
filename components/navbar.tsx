@@ -5,13 +5,14 @@ import Image from "next/image"
 import { ArrowUpRight, Menu, X } from "lucide-react"
 
 const links = [
-  { label: "Solutions", href: "#services" },
-  { label: "Live Demo", href: "#showcase" },
-  { label: "Scenes", href: "#scenes" },
-  { label: "Process", href: "#process" },
-  { label: "About", href: "#about" },
-  { label: "Founder", href: "#founder" },
-  { label: "Contact", href: "#contact" },
+  { label: "Solutions", href: "/#services" },
+  { label: "Products", href: "/products" },
+  { label: "Live Demo", href: "/#showcase" },
+  { label: "Scenes", href: "/#scenes" },
+  { label: "Process", href: "/#process" },
+  { label: "About", href: "/#about" },
+  { label: "Founder", href: "/#founder" },
+  { label: "Contact", href: "/#contact" },
 ]
 
 export default function Navbar() {
@@ -20,7 +21,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-ink/10 bg-paper/95 font-body text-ink backdrop-blur-md">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <a href="#" className="flex items-center gap-2.5" aria-label="Ice Hive Home, back to top">
+        <a href="/" className="flex items-center gap-2.5" aria-label="Ice Hive Home, back to top">
           <Image src="/ice-hive-mark.png" alt="" width={40} height={40} priority className="h-10 w-auto" />
           <span className="flex flex-col leading-none">
             <span className="font-display text-lg font-extrabold uppercase tracking-tight text-navy">Ice Hive</span>
@@ -39,7 +40,7 @@ export default function Navbar() {
         </ul>
 
         <a
-          href="#contact"
+          href="/#contact"
           className="hidden items-center gap-2 rounded-sm bg-navy px-5 py-3 text-sm font-semibold text-paper transition-colors hover:bg-navy-deep lg:inline-flex"
         >
           Start a Project <ArrowUpRight className="size-4 text-hive" />
@@ -68,7 +69,7 @@ export default function Navbar() {
             ))}
             <li className="pt-2">
               <a
-                href="#contact"
+                href="/#contact"
                 onClick={() => setOpen(false)}
                 className="inline-flex items-center gap-2 rounded-sm bg-navy px-5 py-3 font-semibold text-paper"
               >

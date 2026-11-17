@@ -4,19 +4,20 @@ const columns = [
   {
     title: "Solutions",
     links: [
-      { label: "Home Automation", href: "#services" },
-      { label: "Smart Lighting", href: "#services" },
-      { label: "Security & CCTV", href: "#services" },
-      { label: "Networking", href: "#services" },
+      { label: "Home Automation", href: "/#services" },
+      { label: "Smart Lighting", href: "/#services" },
+      { label: "Security & CCTV", href: "/#services" },
+      { label: "Networking", href: "/#services" },
     ],
   },
   {
     title: "Company",
     links: [
-      { label: "Live Demo", href: "#showcase" },
-      { label: "Our Process", href: "#process" },
-      { label: "About", href: "#about" },
-      { label: "Founder", href: "#founder" },
+      { label: "Products", href: "/products" },
+      { label: "Live Demo", href: "/#showcase" },
+      { label: "Our Process", href: "/#process" },
+      { label: "About", href: "/#about" },
+      { label: "Founder", href: "/#founder" },
     ],
   },
   {
@@ -35,7 +36,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div>
-            <a href="#" className="flex items-center gap-3" aria-label="Ice Hive Home, back to top">
+            <a href="/" className="flex items-center gap-3" aria-label="Ice Hive Home, back to top">
               <span className="flex size-11 items-center justify-center rounded-md bg-paper p-1">
                 <Image src="/ice-hive-mark.png" alt="" width={35} height={40} className="h-9 w-auto" />
               </span>
