@@ -1,5 +1,5 @@
 import Navbar from "@/components/navbar"
-import Hero from "@/components/hero"
+import VillaJourney from "@/components/villa-journey/villa-journey"
 import BrandFilm from "@/components/brand-film"
 import Features from "@/components/features"
 import SmartHomeShowcase from "@/components/smart-home-showcase"
@@ -19,7 +19,7 @@ export default function Page() {
       <div className="ih-progress" aria-hidden="true" />
       <Navbar />
       <main className="overflow-x-clip">
-        <Hero />
+        <VillaJourney />
         <Reveal variant="zoom">
           <BrandFilm />
         </Reveal>
