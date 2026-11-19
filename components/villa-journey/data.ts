@@ -6,6 +6,25 @@ export type Hotspot = {
   image: string
 }
 
+export type Scene = {
+  id: "welcome" | "movie" | "party" | "goodnight"
+  name: string
+  description: string
+  dim: number
+  glow: string
+  glowStrength: number
+  screen: string | null
+  audio: boolean
+  cycling?: boolean
+}
+
+export type SceneRig = {
+  glows: { x: number; y: number; rx: number; ry: number }[]
+  speakers: { x: number; y: number }[]
+  screen: { left: number; top: number; width: number; height: number }
+  scenes: Scene[]
+}
+
 export type Room = {
   id: string
   label: string
@@ -16,6 +35,8 @@ export type Room = {
   focusX: number
   burstFrom: { x: number; y: number }
   hotspots: Hotspot[]
+  weight?: number
+  rig?: SceneRig
 }
 
 export const exterior = {
@@ -69,6 +90,81 @@ export const rooms: Room[] = [
       { x: 41, y: 38, name: "Motorised Curtain Track Kit", role: "Curtains", image: "/products/curtain-track-kit.jpg" },
       { x: 56, y: 49, name: "Smart IR Universal Remote", role: "TV & climate", image: "/products/ir-blaster.jpg" },
     ],
+  },
+  {
+    id: "lounge",
+    label: "Media Lounge",
+    title: "One tap. The whole room changes.",
+    description: "Multi-room speakers, RGB LED strips and a Zigbee gateway that ties every device together — then scenes take over.",
+    image: "/journey/room-lounge.png",
+    alt: "Media lounge with sectional sofa, walnut TV wall with LED backlight, floor-standing speakers, ceiling speakers and a Zigbee gateway on the console",
+    focusX: 0.6,
+    burstFrom: { x: 57, y: 62 },
+    weight: 2.6,
+    hotspots: [
+      { x: 57, y: 62.2, name: "Zigbee 3.0 Smart Gateway", role: "The hub", image: "/products/zigbee-gateway.png" },
+      { x: 94, y: 70, name: "Multi-Room Smart Speakers", role: "Whole-home audio", image: "/products/speaker-ceiling.png" },
+      { x: 85.4, y: 40, name: "RGBCW Smart LED Strip", role: "Ambient lighting", image: "/products/led-strip.png" },
+    ],
+    rig: {
+      glows: [
+        { x: 71.9, y: 46.7, rx: 20, ry: 26 },
+        { x: 72, y: 78, rx: 26, ry: 5 },
+        { x: 47, y: 9, rx: 44, ry: 7 },
+      ],
+      speakers: [
+        { x: 53.2, y: 58 },
+        { x: 94, y: 62 },
+        { x: 16.6, y: 3.8 },
+        { x: 77.4, y: 2.6 },
+      ],
+      screen: { left: 58.6, top: 30, width: 26.6, height: 33.4 },
+      scenes: [
+        {
+          id: "welcome",
+          name: "Welcome",
+          description: "Cove lights rise to a warm 3000K, curtains open and soft music follows you in.",
+          dim: 0,
+          glow: "oklch(0.88 0.09 75)",
+          glowStrength: 0,
+          screen: null,
+          audio: false,
+        },
+        {
+          id: "movie",
+          name: "Movie Night",
+          description: "Lights fade to 5%, the LED backlight turns cinema blue, the TV wakes and speakers switch to surround.",
+          dim: 0.72,
+          glow: "oklch(0.62 0.19 255)",
+          glowStrength: 0.95,
+          screen:
+            "radial-gradient(ellipse at 30% 40%, oklch(0.55 0.12 230 / 0.9), transparent 60%), radial-gradient(ellipse at 75% 65%, oklch(0.6 0.15 40 / 0.8), transparent 55%), oklch(0.18 0.04 250)",
+          audio: true,
+        },
+        {
+          id: "party",
+          name: "Party",
+          description: "LED strips cycle through colour in time with the music playing on every speaker in the villa.",
+          dim: 0.5,
+          glow: "oklch(0.66 0.26 330)",
+          glowStrength: 1,
+          screen:
+            "linear-gradient(120deg, oklch(0.6 0.24 330 / 0.9), oklch(0.6 0.2 260 / 0.9), oklch(0.75 0.16 178 / 0.9))",
+          audio: true,
+          cycling: true,
+        },
+        {
+          id: "goodnight",
+          name: "Goodnight",
+          description: "Everything powers down to a faint amber floor glow, music fades out and the doors lock.",
+          dim: 0.86,
+          glow: "oklch(0.7 0.15 55)",
+          glowStrength: 0.55,
+          screen: null,
+          audio: false,
+        },
+      ],
+    },
   },
   {
     id: "kitchen",

@@ -2,14 +2,44 @@
 
 import { useCallback, useEffect, useRef, useState } from "react"
 import Image from "next/image"
-import { ArrowUpRight, ChevronDown } from "lucide-react"
+import { ArrowUpRight, ChevronDown, Clapperboard, Moon, PartyPopper, Sun } from "lucide-react"
 import SceneFrame from "./scene-frame"
 import ProductHotspot from "./product-hotspot"
-import { exterior, finale, rooms, totalProducts } from "./data"
+import SceneLighting from "./scene-lighting"
+import { exterior, finale, rooms, totalProducts, type Scene } from "./data"
 
 const STAGES = rooms.length + 2
-const STAGE_SPAN = STAGES - 0.4
 const TRANSITION = 0.4
+const SCENE_ROOM_HOLD = 0.58
+const SCENE_START = 0.36
+
+const stageWeights = [1, ...rooms.map((r) => r.weight ?? 1), 1]
+const stageStarts = stageWeights.reduce<number[]>((acc, _w, i) => [...acc, i === 0 ? 0 : acc[i - 1] + stageWeights[i - 1]], [])
+const STAGE_SPAN = stageStarts[STAGES - 1] + 1 - TRANSITION
+
+const sceneIcons: Record<Scene["id"], typeof Sun> = {
+  welcome: Sun,
+  movie: Clapperboard,
+  party: PartyPopper,
+  goodnight: Moon,
+}
+
+const weightedToStage = (w: number) => {
+  let i = STAGES - 1
+  while (i > 0 && w < stageStarts[i]) i--
+  return i + (w - stageStarts[i]) / stageWeights[i]
+}
+const stageToWeighted = (f: number) => {
+  const i = Math.min(STAGES - 1, Math.floor(f))
+  return stageStarts[i] + (f - i) * stageWeights[i]
+}
+
+const sceneBlend = (sceneT: number, count: number) => {
+  const s = Math.min(count - 1, Math.max(0, sceneT * count - 0.5))
+  const lower = Math.floor(s)
+  const t = easeInOut(clamp01((s - lower - 0.3) / 0.4))
+  return Array.from({ length: count }, (_, j) => (j === lower ? 1 - t : j === lower + 1 ? t : 0))
+}
 const SCROLL_PER_STAGE_VH = 110
 const FINAL_HOLD_VH = 80
 
@@ -48,16 +78,27 @@ export default function VillaJourney() {
     }
   }, [])
 
-  const jumpTo = useCallback((stage: number) => {
+  const jumpToF = useCallback((targetF: number) => {
     const el = sectionRef.current
     if (!el) return
-    const targetF = stage === 0 ? 0 : stage + 0.3
     const scrollable = el.offsetHeight - window.innerHeight - (FINAL_HOLD_VH / 100) * window.innerHeight
-    const top = el.getBoundingClientRect().top + window.scrollY + (Math.min(targetF, STAGE_SPAN) / STAGE_SPAN) * scrollable
+    const w = Math.min(stageToWeighted(targetF), STAGE_SPAN)
+    const top = el.getBoundingClientRect().top + window.scrollY + (w / STAGE_SPAN) * scrollable
     window.scrollTo({ top, behavior: "smooth" })
   }, [])
 
-  const f = progress * STAGE_SPAN
+  const jumpTo = useCallback((stage: number) => jumpToF(stage === 0 ? 0 : stage + 0.3), [jumpToF])
+
+  const jumpToScene = useCallback(
+    (stage: number, sceneIndex: number, count: number) => {
+      const sceneT = (sceneIndex + 0.5) / count
+      const h = SCENE_START + sceneT * (1 - SCENE_START)
+      jumpToF(stage + h * SCENE_ROOM_HOLD)
+    },
+    [jumpToF],
+  )
+
+  const f = weightedToStage(progress * STAGE_SPAN)
   const enter = (i: number) => (i <= 0 ? 1 : easeInOut(clamp01((f - (i - TRANSITION)) / TRANSITION)))
   const hold = (i: number) => clamp01((f - i) / 0.55)
   const currentStage = Math.min(STAGES - 1, Math.max(0, Math.round(f - 0.2)))
@@ -113,9 +154,16 @@ export default function VillaJourney() {
           if (e <= 0) return null
           const next = enter(stage + 1)
           if (next >= 1) return null
-          const h = hold(stage)
+          const rig = room.rig
+          const h = rig ? clamp01((f - stage) / SCENE_ROOM_HOLD) : hold(stage)
+          const spotH = rig ? clamp01(h / SCENE_START) : h
+          const sceneT = rig ? clamp01((h - SCENE_START) / (1 - SCENE_START)) : 0
+          const sceneWeights = rig ? sceneBlend(sceneT, rig.scenes.length) : []
+          const activeScene = rig ? sceneWeights.indexOf(Math.max(...sceneWeights)) : -1
+          const scenesOn = rig ? h > SCENE_START : false
           const visibleCopy = clamp01((f - stage + 0.08) / 0.2) * (1 - clamp01(next * 4))
-          const activeIndex = h > 0 ? Math.min(room.hotspots.length - 1, Math.floor(h * room.hotspots.length * 0.999)) : -1
+          const activeIndex =
+            spotH > 0 && !scenesOn ? Math.min(room.hotspots.length - 1, Math.floor(spotH * room.hotspots.length * 0.999)) : -1
 
           return (
             <div
@@ -131,12 +179,15 @@ export default function VillaJourney() {
                 scale={1.28 - e * 0.24 + h * 0.03 + next * 0.6}
                 filter={next > 0 ? `brightness(${1 + next * 0.5})` : undefined}
               >
+                {rig && <SceneLighting rig={rig} weights={sceneWeights} />}
                 {room.hotspots.map((spot, k) => (
                   <ProductHotspot
                     key={spot.name + k}
                     hotspot={spot}
                     active={k === activeIndex && visibleCopy > 0.5}
-                    visible={clamp01((h - k * 0.12) / 0.15) * (1 - clamp01(next * 5))}
+                    visible={
+                      clamp01((spotH - k * 0.12) / 0.15) * (1 - clamp01(next * 5)) * (scenesOn ? 0.55 : 1)
+                    }
                   />
                 ))}
               </SceneFrame>
@@ -145,7 +196,11 @@ export default function VillaJourney() {
 
               <div
                 className="absolute inset-x-0 bottom-0 px-6 pb-10 md:pb-14"
-                style={{ opacity: visibleCopy, transform: `translateY(${(1 - visibleCopy) * 24}px)` }}
+                style={{
+                  opacity: visibleCopy,
+                  transform: `translateY(${(1 - visibleCopy) * 24}px)`,
+                  pointerEvents: visibleCopy > 0.5 ? "auto" : "none",
+                }}
               >
                 <div className="mx-auto flex max-w-7xl flex-col gap-4">
                   <span className="ih-eyebrow text-hive">
@@ -154,7 +209,45 @@ export default function VillaJourney() {
                   <h2 className="max-w-xl font-display text-3xl font-bold leading-tight tracking-tight text-balance md:text-5xl">
                     {room.title}
                   </h2>
-                  <p className="max-w-lg text-pretty text-sm leading-relaxed text-paper/75 md:text-base">{room.description}</p>
+                  <p className="max-w-lg text-pretty text-sm leading-relaxed text-paper/75 md:text-base" aria-live="polite">
+                    {scenesOn && rig ? (
+                      <>
+                        <span className="font-semibold text-paper">{rig.scenes[activeScene].name}: </span>
+                        {rig.scenes[activeScene].description}
+                      </>
+                    ) : (
+                      room.description
+                    )}
+                  </p>
+                  {rig && (
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-paper/60">
+                        {scenesOn ? "Scene active" : "Scroll to run scenes"}
+                      </span>
+                      <div role="group" aria-label="Lighting and audio scenes" className="flex flex-wrap gap-2">
+                        {rig.scenes.map((scene, j) => {
+                          const Icon = sceneIcons[scene.id]
+                          const on = scenesOn && j === activeScene
+                          return (
+                            <button
+                              key={scene.id}
+                              type="button"
+                              aria-pressed={on}
+                              onClick={() => jumpToScene(stage, j, rig.scenes.length)}
+                              className={`flex items-center gap-2 rounded-sm border px-3.5 py-2 text-xs font-semibold transition-colors duration-300 ${
+                                on
+                                  ? "border-hive bg-hive text-hive-foreground"
+                                  : "border-paper/25 bg-navy-deep/60 text-paper/85 backdrop-blur-sm hover:border-hive hover:text-hive"
+                              }`}
+                            >
+                              <Icon className="size-4" aria-hidden="true" />
+                              {scene.name}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
                   <ul className="flex max-w-2xl flex-wrap gap-2" aria-label={`${room.label} products`}>
                     {room.hotspots.map((spot, k) => (
                       <li
@@ -234,6 +327,9 @@ export default function VillaJourney() {
                 style={{ left: `${finale.hub.x}%`, top: `${finale.hub.y}%`, opacity: clamp01(finaleHold * 4) }}
               >
                 <Image src="/ice-hive-mark.png" alt="" width={24} height={24} className="h-6 w-auto" />
+                <span className="absolute left-1/2 top-full mt-2 -translate-x-1/2 whitespace-nowrap rounded-sm bg-hive px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-hive-foreground">
+                  Zigbee Gateway
+                </span>
               </div>
             </SceneFrame>
 
