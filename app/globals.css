@@ -462,7 +462,19 @@
   50% { opacity: 1; }
 }
 
-@media (prefers-reduced-motion: reduce) {
+  /* Villa journey scenes: party colour cycling and speaker sound rings */
+  .ih-hue-cycle { animation: ihHue 6s linear infinite; }
+  @keyframes ihHue {
+  to { filter: hue-rotate(360deg); }
+  }
+  .ih-sound { animation: ihSound 1.6s cubic-bezier(0.2, 0.6, 0.3, 1) infinite; }
+  @keyframes ihSound {
+  0% { transform: translate(-50%, -50%) scale(0.4); opacity: 0.9; }
+  100% { transform: translate(-50%, -50%) scale(2.6); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+  .ih-hue-cycle, .ih-sound { animation: none; }
   .sh-orb, .sh-panel, .sh-scan, .sh-drip, .sh-ping, .sh-glow {
     animation: none;
     transition: none;
