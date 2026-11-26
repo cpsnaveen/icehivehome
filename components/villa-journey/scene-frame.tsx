@@ -8,6 +8,7 @@ type SceneFrameProps = {
   src: string
   alt: string
   focusX?: number
+  focusY?: number
   scale: number
   origin: { x: number; y: number }
   filter?: string
@@ -20,13 +21,13 @@ type SceneFrameProps = {
  * percentage-positioned hotspots stay pinned to the same pixels in the photo
  * at every viewport size.
  */
-export default function SceneFrame({ src, alt, focusX = 0.5, scale, origin, filter, priority, children }: SceneFrameProps) {
+export default function SceneFrame({ src, alt, focusX = 0.5, focusY = 0.5, scale, origin, filter, priority, children }: SceneFrameProps) {
+  const frameHeight = `calc(${FRAME_WIDTH} / ${IMAGE_RATIO.toFixed(4)})`
   const frameStyle: CSSProperties = {
     width: FRAME_WIDTH,
     aspectRatio: `${IMAGE_RATIO}`,
     left: `clamp(calc(100vw - ${FRAME_WIDTH}), calc(50vw - ${FRAME_WIDTH} * ${focusX}), 0px)`,
-    top: "50%",
-    transform: "translateY(-50%)",
+    top: `clamp(calc(100svh - ${frameHeight}), calc(50svh - ${frameHeight} * ${focusY}), 0px)`,
   }
 
   return (
