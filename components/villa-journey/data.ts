@@ -33,7 +33,10 @@ export type Room = {
   image: string
   alt: string
   focusX: number
-  burstFrom: { x: number; y: number }
+  /** 0 aligns the top of the photo to the top of the viewport, 0.5 centres it. */
+  focusY?: number
+  /** Point the camera dollies toward when entering and leaving the room. */
+  zoomOrigin: { x: number; y: number }
   hotspots: Hotspot[]
   weight?: number
   rig?: SceneRig
@@ -68,7 +71,8 @@ export const rooms: Room[] = [
     image: "/journey/room-entrance.png",
     alt: "Villa entrance at night with walnut pivot door, face recognition smart lock, video intercom and dome camera",
     focusX: 0.62,
-    burstFrom: { x: 57, y: 55 },
+    focusY: 0,
+    zoomOrigin: { x: 60, y: 35 },
     hotspots: [
       { x: 58.3, y: 60, name: "3D Face Recognition Smart Lock", role: "Access", image: "/products/lock-face-recognition.jpg" },
       { x: 69.4, y: 55.5, name: "Video Intercom Smart Lock", role: "Intercom", image: "/products/lock-video-intercom.jpg" },
@@ -83,7 +87,7 @@ export const rooms: Room[] = [
     image: "/journey/room-living.png",
     alt: "Double-height living room with sheer curtains, cove lighting, TV wall and wall-mounted smart control panels",
     focusX: 0.7,
-    burstFrom: { x: 62, y: 50 },
+    zoomOrigin: { x: 62, y: 50 },
     hotspots: [
       { x: 89.5, y: 47, name: '10" Central Control Panel', role: "Whole-home control", image: "/products/control-panel-10in.jpg" },
       { x: 91.5, y: 63, name: "Glass Touch Switch — 3 Gang", role: "Lighting scenes", image: "/products/glass-switch-3g-grey.jpg" },
@@ -99,7 +103,7 @@ export const rooms: Room[] = [
     image: "/journey/room-lounge.png",
     alt: "Media lounge with sectional sofa, walnut TV wall with LED backlight, floor-standing speakers, ceiling speakers and a Zigbee gateway on the console",
     focusX: 0.6,
-    burstFrom: { x: 57, y: 62 },
+    zoomOrigin: { x: 57, y: 62 },
     weight: 2.6,
     hotspots: [
       { x: 57, y: 62.2, name: "Zigbee 3.0 Smart Gateway", role: "The hub", image: "/products/zigbee-gateway.png" },
@@ -174,7 +178,7 @@ export const rooms: Room[] = [
     image: "/journey/room-kitchen.png",
     alt: "Modern kitchen with marble island, brass pendants, under-cabinet lighting and a small smart control panel",
     focusX: 0.66,
-    burstFrom: { x: 89, y: 50 },
+    zoomOrigin: { x: 89, y: 50 },
     hotspots: [
       { x: 94, y: 38, name: '4" Smart Control Panel', role: "Room control", image: "/products/control-panel-4in.jpg" },
       { x: 80.6, y: 48.6, name: "Smart Wall Socket with USB", role: "Power & energy", image: "/products/socket-uk-usb.jpg" },
@@ -190,7 +194,7 @@ export const rooms: Room[] = [
     image: "/journey/room-bedroom.png",
     alt: "Master bedroom at night with motorised roller blinds, backlit headboard, gold smart switch and Dubai Marina views",
     focusX: 0.6,
-    burstFrom: { x: 50, y: 40 },
+    zoomOrigin: { x: 50, y: 40 },
     hotspots: [
       { x: 90.8, y: 68, name: "Glass Touch Switch — 2 Gang", role: "Bedside scenes", image: "/products/glass-switch-2g-gold.jpg" },
       { x: 19, y: 20, name: "Tubular Roller Blind Motor", role: "Blackout blinds", image: "/products/roller-blind-motor.jpg" },
@@ -206,7 +210,7 @@ export const rooms: Room[] = [
     image: "/journey/room-terrace.png",
     alt: "Pool terrace at night with lit infinity pool, uplit palms, pergola and a solar security camera on the villa wall",
     focusX: 0.55,
-    burstFrom: { x: 70, y: 45 },
+    zoomOrigin: { x: 70, y: 45 },
     hotspots: [
       { x: 92.5, y: 21.5, name: "4G Solar Dual-Lens Camera", role: "Perimeter", image: "/products/camera-solar-4g.jpg" },
       { x: 89, y: 52, name: "Smart Siren Alarm", role: "Deterrence", image: "/products/smart-siren.jpg" },

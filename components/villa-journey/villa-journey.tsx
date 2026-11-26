@@ -46,12 +46,21 @@ const FINAL_HOLD_VH = 80
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v))
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
 
+// Dissolve in the middle of the dolly so both rooms are moving while they overlap.
+const crossfade = (e: number) => clamp01((e - 0.15) / 0.6)
+
+// Motion blur and a slight exposure dip, like a camera passing through a doorway.
+const cameraFilter = (entering: number, leaving: number) => {
+  const blur = (1 - entering) * 4 + leaving * 4
+  const exposure = 1 - Math.sin(Math.PI * entering) * 0.08 - leaving * 0.18
+  return blur > 0.05 || exposure < 0.995 ? `blur(${blur.toFixed(2)}px) brightness(${exposure.toFixed(3)})` : undefined
+}
+
 const stageLabels = ["Villa", ...rooms.map((r) => r.label), "Connected"]
 
 export default function VillaJourney() {
   const sectionRef = useRef<HTMLElement>(null)
   const [progress, setProgress] = useState(0)
-  const [viewport, setViewport] = useState({ w: 1600, h: 900 })
 
   useEffect(() => {
     let frame = 0
@@ -63,7 +72,6 @@ export default function VillaJourney() {
       const scrollable = rect.height - window.innerHeight
       const journeyScroll = scrollable - (FINAL_HOLD_VH / 100) * window.innerHeight
       setProgress(journeyScroll > 0 ? clamp01(-rect.top / journeyScroll) : 0)
-      setViewport((v) => (v.w === window.innerWidth && v.h === window.innerHeight ? v : { w: window.innerWidth, h: window.innerHeight }))
     }
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update)
@@ -103,9 +111,6 @@ export default function VillaJourney() {
   const hold = (i: number) => clamp01((f - i) / 0.55)
   const currentStage = Math.min(STAGES - 1, Math.max(0, Math.round(f - 0.2)))
 
-  const diagonal = Math.hypot(viewport.w, viewport.h)
-  const radiusRef = diagonal / Math.SQRT2
-
   const exteriorPush = enter(1)
   const exteriorCopy = 1 - clamp01((f - 0.2) / 0.35)
 
@@ -113,15 +118,12 @@ export default function VillaJourney() {
   const finaleEnter = enter(finaleIndex)
   const finaleHold = clamp01((f - finaleIndex) / 0.5)
 
-  const activeBurst = (() => {
+  const transitionAmount = (() => {
     for (let i = 1; i < STAGES; i++) {
       const e = enter(i)
-      if (e > 0 && e < 1) {
-        const origin = i < finaleIndex ? rooms[i - 1].burstFrom : finale.hub
-        return { e, origin }
-      }
+      if (e > 0 && e < 1) return Math.sin(Math.PI * e)
     }
-    return null
+    return 0
   })()
 
   return (
@@ -140,8 +142,8 @@ export default function VillaJourney() {
             priority
             focusX={0.55}
             origin={exterior.zoomOrigin}
-            scale={1.04 + hold(0) * 0.06 + exteriorPush * 2.2}
-            filter={exteriorPush > 0 ? `blur(${exteriorPush * 6}px) brightness(${1 + exteriorPush * 0.6})` : undefined}
+            scale={1.04 + hold(0) * 0.06 + exteriorPush * 0.75}
+            filter={cameraFilter(0, exteriorPush)}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-navy-deep/90 via-navy-deep/40 to-transparent" style={{ opacity: exteriorCopy }} />
           <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-navy-deep/80 to-transparent" />
@@ -169,15 +171,16 @@ export default function VillaJourney() {
             <div
               key={room.id}
               className="absolute inset-0"
-              style={{ clipPath: e < 1 ? `circle(${e * 150}% at ${room.burstFrom.x}% ${room.burstFrom.y}%)` : undefined }}
+              style={{ opacity: crossfade(e) }}
             >
               <SceneFrame
                 src={room.image}
                 alt={room.alt}
                 focusX={room.focusX}
-                origin={room.burstFrom}
-                scale={1.28 - e * 0.24 + h * 0.03 + next * 0.6}
-                filter={next > 0 ? `brightness(${1 + next * 0.5})` : undefined}
+                focusY={room.focusY}
+                origin={room.zoomOrigin}
+                scale={1.16 - e * 0.12 + h * 0.03 + next * 0.75}
+                filter={cameraFilter(e, next)}
               >
                 {rig && <SceneLighting rig={rig} weights={sceneWeights} />}
                 {room.hotspots.map((spot, k) => (
@@ -275,14 +278,15 @@ export default function VillaJourney() {
         {finaleEnter > 0 && (
           <div
             className="absolute inset-0"
-            style={{ clipPath: finaleEnter < 1 ? `circle(${finaleEnter * 150}% at ${finale.hub.x}% ${finale.hub.y}%)` : undefined }}
+            style={{ opacity: crossfade(finaleEnter) }}
           >
             <SceneFrame
               src={finale.image}
               alt={finale.alt}
               focusX={0.5}
               origin={finale.hub}
-              scale={1.5 - finaleEnter * 0.42 - finaleHold * 0.04}
+              scale={1.3 - finaleEnter * 0.22 - finaleHold * 0.04}
+              filter={cameraFilter(finaleEnter, 0)}
             >
               <svg className="absolute inset-0 size-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
                 {finale.nodes.map((node, k) => {
@@ -374,42 +378,16 @@ export default function VillaJourney() {
           </div>
         )}
 
-        {/* Burst: a light ring that rides the edge of the opening portal */}
-        {activeBurst && (
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div
-              className="absolute rounded-full border-2 border-hive"
-              style={{
-                left: `${activeBurst.origin.x}%`,
-                top: `${activeBurst.origin.y}%`,
-                width: activeBurst.e * 1.5 * radiusRef * 2,
-                height: activeBurst.e * 1.5 * radiusRef * 2,
-                transform: "translate(-50%, -50%)",
-                opacity: Math.sin(Math.PI * activeBurst.e),
-                boxShadow: "0 0 60px 8px var(--hive), inset 0 0 60px 4px var(--hive)",
-              }}
-            />
-            <div
-              className="absolute size-[160vmax] rounded-full mix-blend-screen"
-              style={{
-                left: `${activeBurst.origin.x}%`,
-                top: `${activeBurst.origin.y}%`,
-                transform: `translate(-50%, -50%) scale(${0.3 + activeBurst.e * 1.2}) rotate(${activeBurst.e * 40}deg)`,
-                opacity: Math.sin(Math.PI * activeBurst.e) * 0.55,
-                background:
-                  "repeating-conic-gradient(from 0deg, oklch(0.95 0.06 178 / 0.5) 0deg 1.5deg, transparent 1.5deg 12deg)",
-                maskImage: "radial-gradient(circle, black 0%, transparent 60%)",
-                WebkitMaskImage: "radial-gradient(circle, black 0%, transparent 60%)",
-              }}
-            />
-            <div
-              className="absolute inset-0"
-              style={{
-                background: `radial-gradient(circle at ${activeBurst.origin.x}% ${activeBurst.origin.y}%, oklch(0.98 0.02 178 / 0.55), transparent 45%)`,
-                opacity: Math.pow(Math.sin(Math.PI * activeBurst.e), 2),
-              }}
-            />
-          </div>
+        {/* Walk-through: lens vignette deepens while the camera moves between rooms */}
+        {transitionAmount > 0 && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background: "radial-gradient(ellipse 75% 70% at 50% 50%, transparent 35%, var(--color-navy-deep) 100%)",
+              opacity: transitionAmount * 0.75,
+            }}
+          />
         )}
 
         {/* Exterior hero copy */}
