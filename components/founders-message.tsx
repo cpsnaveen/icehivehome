@@ -33,12 +33,12 @@ export default function FoundersMessage() {
 
         <div className="mt-16 grid gap-14 lg:grid-cols-[22rem_1fr]">
           <aside className="lg:sticky lg:top-28 lg:self-start">
-            <div className="aspect-[4/5] overflow-hidden rounded-sm border border-paper/15">
+            <div className="aspect-[3/4] overflow-hidden rounded-sm border border-paper/15">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/founder.png"
-                alt="Portrait of Naveen Srinivasan, Founder of Ice Hive Home"
-                className="h-full w-full object-cover object-[50%_22%]"
+                src="/images/founder.jpg"
+                alt="Portrait of Naveen Srinivasan, Founder of Ice Hive Home, in a charcoal suit standing before a brick wall"
+                className="h-full w-full origin-[59%_45%] scale-150 object-cover"
               />
             </div>
             <div className="mt-5 border-l-2 border-hive pl-4">
